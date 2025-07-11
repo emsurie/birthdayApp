@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var newName = ""
+    @State private var newBirthday = Date.now
     //@State quickly updates data for the app
     @State private var friends: [Friend] = [
         Friend(friendName: "Nicole", friendBirthday: .now),
@@ -25,11 +27,18 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Birthdays")
+            .safeAreaInset(edge: .bottom){
+                VStack(alignment: .center, spacing: 20){
+                    Text("New Birthday")
+                        .font(.headline)
+                }
+            }
             
             //closing nav stack
         }
         //closing body
     }
+    //closing struct
 }
 
 #Preview {
