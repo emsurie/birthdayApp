@@ -15,13 +15,7 @@ struct ContentView: View {
         Friend(friendName: "Geetika", friendBirthday: .now)
     ]
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        List(friends, id: \.name){ Friend in }
     }
 }
 
