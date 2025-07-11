@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    //@State quickly updates data for the app
+    @State private var friends: [Friend] = [
+        Friend(friendName: "Nicole", friendBirthday: .now),
+        Friend(friendName: "Geetika", friendBirthday: .now)
+    ]
     var body: some View {
         VStack {
             Image(systemName: "globe")
