@@ -1,0 +1,110 @@
+//BirthdaysApp
+//
+//  Created by Indiana Suriel on 7/11/25.
+//
+
+import SwiftUI
+import SwiftData
+
+@main
+struct BirthdaysApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .modelContainer(for: Friend.self)
+        }
+    }
+
+
+
+
+//ContentView
+//
+//  Created by Indiana Suriel on 7/11/25.
+//
+
+import SwiftUI
+import SwiftData
+
+struct ContentView: View {
+    
+    @State private var newName = ""
+    @State private var newBirthday = Date.now
+    //@State quickly updates data for the app
+    
+    //friends array
+    @Query private var friends: [Friend]
+    @Environment(\.modelContext) private var context
+    
+    
+    var body: some View {
+        NavigationStack{
+            List(friends){ Friend in
+                
+                HStack{
+                    Text(Friend.name)
+                    Spacer()
+                    Text(Friend.birthday, format: .dateTime.month(.wide).day().year())
+                }
+            }
+            .navigationTitle("Birthdays")
+            .safeAreaInset(edge: .bottom){
+                VStack(alignment: .center, spacing: 20){
+                    Text("New Birthday")
+                        .font(.headline)
+                    //the $ is used as a 2 way binding like how in Java we use reader.nextLine() (or .nextInt() or .nextDouble())
+                    
+                    //in: Date.distantPast...Date.now, displayedComponents: .date: is used for the user to not pick a date that is in the future
+                    DatePicker(selection: $newBirthday, in: Date.distantPast...Date.now, displayedComponents: .date){
+                        TextField("Name", text: $newName)
+                            .textFieldStyle(.roundedBorder)
+                    } //closing DatePicker
+                    
+                    Button("Save"){
+                        let newFriend = Friend(friendName: newName, friendBirthday: newBirthday)
+                        context.insert(newFriend)
+                        newName = ""
+                        newBirthday = .now
+                    } //closing Button
+                    .bold()
+                    
+                } //closing VStack
+                
+                .padding()
+                    .background(.bar)
+                
+            }//closing .safeAreaInset
+            
+            
+            //closing nav stack
+        }
+        //closing body
+    }
+    //closing struct
+}
+
+#Preview {
+    ContentView()
+        .modelContainer(for: Friend.self, inMemory: true)
+}
+
+
+
+
+
+
+
+//Friend
+//
+//  Created by Indiana Suriel on 7/11/25.
+//
+
+import Foundation
+import SwiftData
+
+@Model
+
+class Friend{
+    var name = ""
+    var birthday: Date
+    
