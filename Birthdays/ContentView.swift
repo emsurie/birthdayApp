@@ -46,8 +46,14 @@ struct ContentView: View {
                         newBirthday = .now
                     } //closing Button
                     .bold()
+                    
                 } //closing VStack
-            }
+                
+                .padding()
+                    .background(.bar)
+                
+            }//closing .safeAreaInset
+            
             
             //closing nav stack
         }
